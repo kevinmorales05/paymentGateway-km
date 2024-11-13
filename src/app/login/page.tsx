@@ -51,10 +51,10 @@ export default function Login() {
       <AbsoluteCenter>
         <VStack>
           <Fieldset.Root size="lg" maxW="md">
-            <Heading>Login</Heading>
+            <Heading textAlign={'center'} margin={5}>Login</Heading>
             <Stack>
-              <Fieldset.Legend>Access Credentials</Fieldset.Legend>
-              <Fieldset.HelperText>
+              <Fieldset.Legend textAlign={'center'} margin={2}>Access Credentials</Fieldset.Legend>
+              <Fieldset.HelperText textAlign={'center'} margin={3}>
                 Please provide your email and password
               </Fieldset.HelperText>
             </Stack>
@@ -63,16 +63,16 @@ export default function Login() {
               <form onSubmit={handleSubmit(onSubmit)}>
                 {/* register your input into the hook by invoking the "register" function */}
 
-                <Field label="Email" required>
+                <Field label="Email" required margin={3}>
                   <Input
                     defaultValue="zorapay@gmail.com"
                     {...register("email", { required: true })}
                   />
                   {/* errors will return when field validation fails  */}
                   {errors.email && <span>This field is required</span>}
-                </Field>
+                </Field >
                 {/* include validation with required or other standard HTML validation rules */}
-                <Field label="Password" required>
+                <Field label="Password" required margin={3}>
                   <Input
                     defaultValue="**********"
                     {...register("password", { required: true })}
