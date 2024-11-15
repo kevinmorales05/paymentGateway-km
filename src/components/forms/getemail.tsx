@@ -11,18 +11,14 @@ import {
   Box,
   AbsoluteCenter,
   Center,
-  Text,
 } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 
-import { toaster } from "@/components/ui/toaster";
 //dependency for forms
 import { useForm, SubmitHandler } from "react-hook-form";
 import { ILoginFormInput } from "@/types/types";
-//links to move
-import { Link } from "@chakra-ui/react";
 
-export default function Login() {
+export default function GetEmail(props) {
   const {
     register,
     handleSubmit,
@@ -32,11 +28,9 @@ export default function Login() {
   // Form submit handler
   const onSubmit: SubmitHandler<ILoginFormInput> = (data) => {
     console.log(data);
-    toaster.create({
-      title: "Logged in successfully.",
-      description: "You have successfully logged in.",
-      duration: 5000,
-    });
+    props.setEmail(data.email);
+    console.log(props.email);
+    
   };
 
   return (
@@ -72,17 +66,7 @@ export default function Login() {
                   {/* errors will return when field validation fails  */}
                   {errors.email && <span>{errors.email.message}</span>}
                 </Field>
-                {/* include validation with required or other standard HTML validation rules */}
-                <Field label="Password" required margin={3}>
-                  <Input
-                    defaultValue="**********"
-                    type="password"
-                    {...register("password", { required: true })}
-                  />
-                  {/* errors will return when field validation fails  */}
-                  {errors.password && <span>This field is required</span>}
-                </Field>
-
+                
                 <Center>
                   <Box>
                     <Button
@@ -91,28 +75,11 @@ export default function Login() {
                       padding={5}
                       margin={10}
                     >
-                      Submit
+                      Send OTP
                     </Button>
                   </Box>
                 </Center>
               </form>
-              <Box>
-                <Text>
-                  You dont have an account{" "}
-                  <Link color="teal.500" href="/register">
-                    Create an account
-                  </Link>
-                </Text>
-                
-              </Box>
-              <Box>
-              <Text>
-                  Do you forget your password?{" "}
-                  <Link color="teal.500" href="/recoverpwd">
-                    Recover Password
-                  </Link>
-                </Text>
-              </Box>
             </Fieldset.Content>
           </Fieldset.Root>
         </VStack>
