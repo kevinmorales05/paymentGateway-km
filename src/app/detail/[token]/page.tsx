@@ -12,7 +12,8 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams } from "next/navigation"; //usar despues
+import { useRouter } from 'next/navigation'
 import { OrderDetail } from "@/components/OrderDetail";
 //key to decrypt for testing
 const secretKey: string = "mySecretKey12345";
@@ -26,6 +27,7 @@ export default function DecryptDetails({
 }) {
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<DecryptedData | null>(null);
+  const router = useRouter()
 
   //integrate a service to ask for the token through the id we receive
   useEffect(() => {
@@ -54,24 +56,34 @@ export default function DecryptDetails({
         <>
           <Box>
             <Center>
-              <AbsoluteCenter>
                 <VStack>
                   <Heading margin={25} marginTop={40}>
-                    Order Details
+                    ORDER DETAILS
                   </Heading>
-                  <Text>This are the details of your purchase</Text>
+               
 
                   <OrderDetail data={data} />
                   <Text> PAYMENT TYPE</Text>
                   <VStack>
-                    <Button>Add Credit/Debit Card</Button>
-                    <Button>Pay with ZoraPay Credit</Button>
+                    <Button
+                    onClick={()=> {
+                      console.log('Add credit/debit!');
+                      router.push('/addcard')
+  
+                    }}
+                    >Add Credit/Debit Card</Button>
+                    <Button onClick={()=> {
+                    console.log('Pay with Zora!');
+                    router.push('/paywithZora')
+
+                  }}>Pay with ZoraPay Credit</Button>
                   </VStack>
                   <Button onClick={()=> {
                     console.log('Place order!');
+                    router.push('/placeOrder')
+
                   }} size={'xl'} variant={'surface'} >Place Order</Button>
                 </VStack>
-              </AbsoluteCenter>
             </Center>
           </Box>
         </>

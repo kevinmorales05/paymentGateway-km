@@ -37,3 +37,17 @@ export interface DecryptedData {
 export interface OrderDetailsProps {
     data: DecryptedData;
   }
+
+export interface IAddCardInterface {
+  name: string;
+  cardNumber: string;
+  ccv: string;
+  expDate: string;
+  line1: string;
+  line2: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  note?: string;
+}
