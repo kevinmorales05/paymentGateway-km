@@ -15,11 +15,12 @@ import {
 } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 
-import { toaster } from "@/components/ui/toaster";
+import { toaster, Toaster } from "@/components/ui/toaster";
 //dependency for forms
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IRegisterFormInput } from "@/types/types";
 import { Link } from "@chakra-ui/react";
+import { useRouter } from 'next/navigation'
 
 
 export default function Register() {
@@ -33,11 +34,19 @@ export default function Register() {
   const onSubmit: SubmitHandler<IRegisterFormInput> = (data) => {
     console.log(data);
     toaster.create({
-      title: "Logged in successfully.",
-      description: "You have successfully logged in.",
-      duration: 5000,
+      title: "Account Created successfully.",
+      description: "You have successfully created an account!",
+      duration: 6000,
+      action: {
+        label: "Continue",
+        onClick: () => router.push('/login'),
+      },
     });
+    
   };
+
+  //router to navigation
+  const router = useRouter();
 
   return (
     <Box>
@@ -149,6 +158,7 @@ export default function Register() {
             </Fieldset.Content>
           </Fieldset.Root>
         </VStack>
+        <Toaster />
       </AbsoluteCenter>
     </Box>
   );

@@ -15,6 +15,7 @@ import {
 import { Field } from "@/components/ui/field";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IAddCardInterface } from "@/types/types";
+import { useRouter } from 'next/navigation';
 
 
 export default function AddCard() {
@@ -23,10 +24,14 @@ export default function AddCard() {
     handleSubmit,
     formState: { errors },
   } = useForm<IAddCardInterface>();
+  //router to navigation
+  const router = useRouter();
   
 
   const onSubmit: SubmitHandler<IAddCardInterface> = (data) => {
     console.log(data);
+    //here we need to implement a solution to save the card as a reference
+    router.push('/detail/12')
   };
   return (
     <Center display={"flex"} flexDir={"column"}>
@@ -34,11 +39,13 @@ export default function AddCard() {
         <Heading> ADD CREDIT/DEBIT CARD</Heading>
       </Box>
       <Box>
-        <Group attached>
+        <Group onClick={()=> {
+            console.log('Hello guys!')
+          }} attached>
           <IconButton variant="outline" size="sm">
             <CameraOutlined />
           </IconButton>
-          <Button variant="outline" size="sm">
+          <Button  variant="outline" size="sm">
             Scan your Card
           </Button>
         </Group>
