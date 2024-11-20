@@ -79,12 +79,12 @@ const placePayment = ()=>  {
   console.log('prefered card ', preferedCard);
 
   //4. desactivate the loading modal
-  setLoading(false);
+  //setLoading(false);
   //5. navigate to placeOrder success
   
   console.log("End of place order!");
   router.push("/placeOrder");
-  
+
 
 }
 
@@ -147,6 +147,7 @@ const placePayment = ()=>  {
                   onClick={() => placePayment()}
                   size={"xl"}
                   variant={"surface"}
+                  disabled={getPreferedCard(userCards) === null ? true : false}
                 >
                   Place Order
                 </Button>

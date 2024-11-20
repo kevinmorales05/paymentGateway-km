@@ -1,6 +1,6 @@
 "use client";
 import { useAppContext } from "@/context/AppContext";
-import { AbsoluteCenter, Heading, VStack } from "@chakra-ui/react";
+import { AbsoluteCenter, Heading, VStack, Text, Link, Box } from "@chakra-ui/react";
 
 import React from "react";
 
@@ -14,6 +14,13 @@ export default function placeOrder() {
           {userInfo === null ? (
             <>
               <p>We invite you to create a new account </p>
+              <Box>
+              <Text>
+                  <Link color="teal.500" href="/register">
+                    Create an account
+                  </Link>
+                </Text>
+              </Box>
             </>
           ) : (
             <>

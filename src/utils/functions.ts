@@ -1,7 +1,11 @@
 import { UserCards } from "@/types/types";
 
 export function getPreferedCard(userCards: UserCards | null){
+  console.log('status userCards ', userCards);
     if (userCards !== null) {
+      if(userCards.cards === null){
+        return null;
+      }
       return userCards.cards.filter(
         (card) => card.priority === 1
       )[0];

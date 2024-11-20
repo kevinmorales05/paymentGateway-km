@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 //design components
 import {
   Button,
@@ -22,6 +22,7 @@ import { Link } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 //context of the app
 import { useAppContext } from "@/context/AppContext";
+import Loader from "@/components/Loader";
 
 //dummie info
 const session =
@@ -80,6 +81,7 @@ export default function Login() {
 
   //navigation
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
 
   //getContextVariables
   const { setUserInfo, setLogged, setSessionToken, setUserCards } =
@@ -87,6 +89,8 @@ export default function Login() {
 
   // Form submit handler
   const onSubmit: SubmitHandler<ILoginFormInput> = (data) => {
+    //activate loader
+    setLoading(true);
     console.log(data);
     //get user info
 
@@ -105,7 +109,7 @@ export default function Login() {
     setLogged(true);
 
     //get the purchase id
-
+    
     //use the purchase id, it comes in the param
     router.push(`/detail/${purchaseID}`);
   };
@@ -113,82 +117,88 @@ export default function Login() {
   return (
     <Box>
       <AbsoluteCenter>
-        <VStack>
-          <Fieldset.Root size="lg" maxW="md">
-            <Heading textAlign={"center"} margin={5}>
-              Login
-            </Heading>
-            <Stack>
-              <Fieldset.Legend textAlign={"center"} margin={2}>
-                Access Credentials
-              </Fieldset.Legend>
-              <Fieldset.HelperText textAlign={"center"} margin={3}>
-                Please provide your email and password
-              </Fieldset.HelperText>
-            </Stack>
+        {loading ? (
+          <Loader active={loading} />
+        ) : (
+          <>
+            <VStack>
+              <Fieldset.Root size="lg" maxW="md">
+                <Heading textAlign={"center"} margin={5}>
+                  Login
+                </Heading>
+                <Stack>
+                  <Fieldset.Legend textAlign={"center"} margin={2}>
+                    Access Credentials
+                  </Fieldset.Legend>
+                  <Fieldset.HelperText textAlign={"center"} margin={3}>
+                    Please provide your email and password
+                  </Fieldset.HelperText>
+                </Stack>
 
-            <Fieldset.Content>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                {/* register your input into the hook by invoking the "register" function */}
+                <Fieldset.Content>
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    {/* register your input into the hook by invoking the "register" function */}
 
-                <Field label="Email" required margin={3}>
-                  <Input
-                    defaultValue="zorapay@gmail.com"
-                    {...register("email", {
-                      required: "Email is required",
-                      pattern: {
-                        value:
-                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                        message: "Please enter a valid email address",
-                      },
-                    })}
-                  />
-                  {/* errors will return when field validation fails  */}
-                  {errors.email && <span>{errors.email.message}</span>}
-                </Field>
-                {/* include validation with required or other standard HTML validation rules */}
-                <Field label="Password" required margin={3}>
-                  <Input
-                    defaultValue="**********"
-                    type="password"
-                    {...register("password", { required: true })}
-                  />
-                  {/* errors will return when field validation fails  */}
-                  {errors.password && <span>This field is required</span>}
-                </Field>
+                    <Field label="Email" required margin={3}>
+                      <Input
+                        defaultValue="zorapay@gmail.com"
+                        {...register("email", {
+                          required: "Email is required",
+                          pattern: {
+                            value:
+                              /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                            message: "Please enter a valid email address",
+                          },
+                        })}
+                      />
+                      {/* errors will return when field validation fails  */}
+                      {errors.email && <span>{errors.email.message}</span>}
+                    </Field>
+                    {/* include validation with required or other standard HTML validation rules */}
+                    <Field label="Password" required margin={3}>
+                      <Input
+                        defaultValue="**********"
+                        type="password"
+                        {...register("password", { required: true })}
+                      />
+                      {/* errors will return when field validation fails  */}
+                      {errors.password && <span>This field is required</span>}
+                    </Field>
 
-                <Center>
+                    <Center>
+                      <Box>
+                        <Button
+                          type="submit"
+                          alignSelf="flex-start"
+                          padding={5}
+                          margin={10}
+                        >
+                          Submit
+                        </Button>
+                      </Box>
+                    </Center>
+                  </form>
                   <Box>
-                    <Button
-                      type="submit"
-                      alignSelf="flex-start"
-                      padding={5}
-                      margin={10}
-                    >
-                      Submit
-                    </Button>
+                    <Text>
+                      You dont have an account{" "}
+                      <Link color="teal.500" href="/register">
+                        Create an account
+                      </Link>
+                    </Text>
                   </Box>
-                </Center>
-              </form>
-              <Box>
-                <Text>
-                  You dont have an account{" "}
-                  <Link color="teal.500" href="/register">
-                    Create an account
-                  </Link>
-                </Text>
-              </Box>
-              <Box>
-                <Text>
-                  Do you forget your password?{" "}
-                  <Link color="teal.500" href="/recoverpwd">
-                    Recover Password
-                  </Link>
-                </Text>
-              </Box>
-            </Fieldset.Content>
-          </Fieldset.Root>
-        </VStack>
+                  <Box>
+                    <Text>
+                      Do you forget your password?{" "}
+                      <Link color="teal.500" href="/recoverpwd">
+                        Recover Password
+                      </Link>
+                    </Text>
+                  </Box>
+                </Fieldset.Content>
+              </Fieldset.Root>
+            </VStack>
+          </>
+        )}
       </AbsoluteCenter>
     </Box>
   );
