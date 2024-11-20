@@ -16,6 +16,8 @@ import { Field } from "@/components/ui/field";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IAddCardInterface } from "@/types/types";
 import { useRouter } from 'next/navigation';
+//context of the app
+import { useAppContext } from "@/context/AppContext";
 
 
 export default function AddCard() {
@@ -26,10 +28,12 @@ export default function AddCard() {
   } = useForm<IAddCardInterface>();
   //router to navigation
   const router = useRouter();
-  
+  //use context
+  const { addUserCard } = useAppContext();
 
   const onSubmit: SubmitHandler<IAddCardInterface> = (data) => {
     console.log(data);
+    addUserCard(data);
     //here we need to implement a solution to save the card as a reference
     router.push('/detail/12')
   };

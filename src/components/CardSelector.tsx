@@ -7,17 +7,19 @@ import { useAppContext } from "@/context/AppContext";
 
 
 function CardSelector(props: propsCard) {
-  const { updateUserCards } = useAppContext();
+  const { updateUserCards, setIsModalOpen } = useAppContext();
   const updateStatus = () => {
     console.log("this is the id ", props.cardInfo?.cardId)
     if(props.cardInfo?.cardId !== undefined || props.cardInfo?.cardId !== ''){
       updateUserCards(props.cardInfo?.cardId);
-      console.log('close modal!');
+      
     }
+    console.log('close modal!');
+    setIsModalOpen(false);
     
   }
   return (
-    <Button onClick={() => updateUserCards(props.cardInfo?.cardId)}>
+    <Button onClick={() => updateStatus()}>
       <HStack>
         <Text>{props.cardInfo?.brand}</Text>
         <Text>xxxx-{props.cardInfo?.last4}</Text>

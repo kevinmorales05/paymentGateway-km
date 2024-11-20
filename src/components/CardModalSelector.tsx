@@ -3,10 +3,14 @@ import { Button, Modal } from "antd";
 import { CardInfo, UserCards } from "@/types/types";
 import CardSelector from "./CardSelector";
 import { Heading, VStack } from "@chakra-ui/react";
+//context of the app
+import { useAppContext } from "@/context/AppContext";
+
 
 export default function CardModalSelector(props: UserCards) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   //context variables
+  const { isModalOpen, setIsModalOpen } = useAppContext();
+
   const showModal = () => {
     setIsModalOpen(true);
   };
