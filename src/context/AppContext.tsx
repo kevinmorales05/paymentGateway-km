@@ -43,6 +43,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   //close modal
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  //update the prefered card
   const updateUserCards = (updatedCard: string) => {
     console.log("Before update: ", userCards?.cards);
     console.log("Card ID to update: ", updatedCard);
@@ -63,6 +64,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       });
     }
   };
+  //add a new card
   const addUserCard = (newCard: IAddCardInterface) => {
     console.log("Before addition: ", userCards?.cards);
     console.log("New card to add: ", newCard);
@@ -120,7 +122,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       });
     }
   };
-
+  //place a new order
   const placeOrder = () => {
     //process the order
   };
@@ -150,6 +152,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+//export the hook to use the context in the app
 export const useAppContext = () => {
   const context = useContext(AppContext);
   if (!context) {

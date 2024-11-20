@@ -96,6 +96,7 @@ export default function Login() {
 
     //set usercards
     setUserCards(dummieUserCards);
+    //setUserCards(dummieUserCardsNull);
     //throw error if no user info or incorrect password
 
     //set session token

@@ -36,8 +36,13 @@ export default function DecryptDetails({
   const [data, setData] = useState<DecryptedData | null>(null);
   const router = useRouter();
   //getContextVariables
-  const { userInfo, sessionToken, userCards } = useAppContext();
+  const { userInfo, sessionToken, userCards, setUserCards } = useAppContext();
 
+
+  const dummieUserCardsNull: UserCards = {
+    userId: "anonimousUser",
+    cards: null,
+  };
   //integrate a service to ask for the token through the id we receive
   useEffect(() => {
     async function getParams() {
@@ -56,6 +61,12 @@ export default function DecryptDetails({
       setLoading(false);
     }
     getParams();
+    console.log("usercard ", userCards);
+    if(userCards === null){
+      console.log('sesion anonima!');
+      setUserCards(dummieUserCardsNull);
+    }
+
   }, []);
 
 const placePayment = ()=>  {
@@ -110,6 +121,7 @@ const placePayment = ()=>  {
                           getPreferedCard(userCards)
                         }
                       />
+                      <CardModalSelector key={userCards?.userId} cards={userCards?.cards} userId="kevin" />
                       
                     </>
                   )}
@@ -141,6 +153,7 @@ const placePayment = ()=>  {
               </VStack>
             </Center>
             <CardModalSelector key={userCards?.userId} cards={userCards?.cards} userId="kevin" />
+
           </Box>
         </>
       )}

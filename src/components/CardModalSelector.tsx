@@ -26,7 +26,7 @@ export default function CardModalSelector(props: UserCards) {
   return (
     <>
       <Button type="primary" onClick={showModal}>
-        Open Modal
+        Choose another card
       </Button>
       <Modal
         title="Cards previously used"
