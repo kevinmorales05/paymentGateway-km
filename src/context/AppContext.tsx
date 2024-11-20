@@ -6,6 +6,12 @@ import {
   UserCards,
   UserInfo,
 } from "@/types/types";
+import {
+  get4lastNumbers,
+  getMonth,
+  getShortYear,
+  identifyCardType,
+} from "@/utils/functions";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface AppContextProps {
@@ -57,39 +63,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       });
     }
   };
-  const addUserCard = (newCard: IAddCardInterface
-    ) => {
+  const addUserCard = (newCard: IAddCardInterface) => {
     console.log("Before addition: ", userCards?.cards);
     console.log("New card to add: ", newCard);
-// tokenize the card number
-const tokenize = (cardNumber: string) => {
-  //substitute with the real service
-  return `token123-${newCard.cardNumber}abc`
-}
-//get the last 4 numbers of the card
-const get4lastNumbers = ( cardNumber: string) => {
-  return cardNumber.slice(-4); 
-}
-//get the type of the card according to the first numbers
-function identifyCardType(cardNumber: string) {
-  if (/^4/.test(cardNumber)) {
-    return "Visa";
-  } else if (/^5[1-5]/.test(cardNumber) || /^222[1-9]/.test(cardNumber) || /^22[3-9]/.test(cardNumber) || /^2[3-6]/.test(cardNumber) || /^27[01]/.test(cardNumber) || /^2720/.test(cardNumber)) {
-    return "MasterCard";
-  } else {
-    return "Unknown Card Type";
-  }
-}
-//get month function
-function getMonth(monthData:string) {
-  const [, month] = monthData.split("-"); // Obtiene el segundo valor (el mes)
-  return month;
-}
-// get short year
-function getShortYear(monthData: string) {
-  const [year] = monthData.split("-"); // Obtiene el primer valor (el año)
-  return year.slice(-2); // Toma los últimos dos dígitos del año
-}
+    // tokenize the card number
+    const tokenize = (cardNumber: string) => {
+      //substitute with the real service
+      return `token123-${newCard.cardNumber}abc`;
+    };
 
     let newCardCyphered = {
       cardId: tokenize(newCard.cardNumber),
@@ -107,9 +88,7 @@ function getShortYear(monthData: string) {
         priority: 0, // Reset priority for existing cards
       })) || [];
 
-    updatedCards.push(
-      newCardCyphered
-    );
+    updatedCards.push(newCardCyphered);
 
     console.log("Cards after addition: ", updatedCards);
 
@@ -144,7 +123,7 @@ function getShortYear(monthData: string) {
 
   const placeOrder = () => {
     //process the order
-  }
+  };
 
   return (
     <AppContext.Provider

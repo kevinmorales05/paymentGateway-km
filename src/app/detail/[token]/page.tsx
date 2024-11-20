@@ -1,6 +1,6 @@
 "use client";
 import Loader from "@/components/Loader";
-import { CardInfo, DecryptedData } from "@/types/types";
+import { CardInfo, DecryptedData, UserCards } from "@/types/types";
 import { decrypt } from "@/utils/decrypt";
 import {
   AbsoluteCenter,
@@ -20,6 +20,7 @@ import { OrderDetail } from "@/components/OrderDetail";
 import { useAppContext } from "@/context/AppContext";
 import CardSelector from "@/components/CardSelector";
 import CardModalSelector from "@/components/CardModalSelector";
+import { getPreferedCard } from "@/utils/functions";
 
 //Dummie key and token to decrypt for testing
 const secretKey: string = "mySecretKey12345";
@@ -57,8 +58,23 @@ export default function DecryptDetails({
     getParams();
   }, []);
 
-const setDefaultCard = ()=>  {
-  console.log('this is the new selected card');
+const placePayment = ()=>  {
+  console.log('Start Place Payment');
+  //1. activate the loading process 
+  setLoading(true);
+  //2. get the prefered card
+  var preferedCard = getPreferedCard(userCards);
+  //3. consume placepayment service, use the prefered card to send a payment
+  console.log('prefered card ', preferedCard);
+
+  //4. desactivate the loading modal
+  setLoading(false);
+  //5. navigate to placeOrder success
+  
+  console.log("End of place order!");
+  router.push("/placeOrder");
+  
+
 }
 
   return (
@@ -88,13 +104,10 @@ const setDefaultCard = ()=>  {
                   ) : (
                     <>
                       <CardSelector
-                      key={userCards?.cards.filter(
-                        (card) => card.priority === 1
-                      )[0].cardholderName}
-                        cardInfo={
-                          userCards?.cards.filter(
-                            (card) => card.priority === 1
-                          )[0]
+                      key={getPreferedCard(userCards).cardholderName}
+                        
+                      cardInfo={
+                          getPreferedCard(userCards)
                         }
                       />
                       
@@ -119,10 +132,7 @@ const setDefaultCard = ()=>  {
                   </Button>
                 </VStack>
                 <Button
-                  onClick={() => {
-                    console.log("Place order!");
-                    router.push("/placeOrder");
-                  }}
+                  onClick={() => placePayment()}
                   size={"xl"}
                   variant={"surface"}
                 >
