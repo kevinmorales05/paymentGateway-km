@@ -83,20 +83,19 @@ const setDefaultCard = ()=>  {
                 <VStack>
                   {/* Card selected by default */}
 
-                  {userCards?.cards === null ? (
+                  {userCards?.cards === null || userCards?.cards === undefined ? (
                     <></>
                   ) : (
                     <>
                       <CardSelector
                       key={userCards?.cards.filter(
                         (card) => card.priority === 1
-                      )[0].cardId}
+                      )[0].cardholderName}
                         cardInfo={
                           userCards?.cards.filter(
                             (card) => card.priority === 1
                           )[0]
                         }
-                        setDefaultCard={() => console.log("esta es la card!")}
                       />
                       
                     </>
@@ -131,7 +130,7 @@ const setDefaultCard = ()=>  {
                 </Button>
               </VStack>
             </Center>
-            <CardModalSelector cards={userCards?.cards} userId="kevin" />
+            <CardModalSelector key={userCards?.userId} cards={userCards?.cards} userId="kevin" />
           </Box>
         </>
       )}
