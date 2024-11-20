@@ -121,6 +121,7 @@ function getShortYear(monthData: string) {
       });
     }
   };
+  //evaluate if it works
   const deleteUserCard = (cardIdToDelete: string) => {
     console.log("Before deletion: ", userCards?.cards);
     console.log("Card ID to delete: ", cardIdToDelete);
@@ -140,6 +141,10 @@ function getShortYear(monthData: string) {
       });
     }
   };
+
+  const placeOrder = () => {
+    //process the order
+  }
 
   return (
     <AppContext.Provider
