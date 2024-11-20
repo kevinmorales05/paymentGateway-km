@@ -51,3 +51,27 @@ export interface IAddCardInterface {
   country: string;
   note?: string;
 }
+
+export interface UserInfo {
+  username: string;
+  name: string;
+  lastName: string;
+  userId: string;
+}
+export interface CardInfo {
+  cardId: string; //here is the token
+  last4: string; // name of the card to recordxxxx-3456
+  expMonth: string;
+  expYear: string;
+  brand: string; //visa, mastercard, etc.
+  cardholderName: string;
+  priority: number; // 1 for priority, 0 no priority, 1 is the card configured for default payments
+}
+export interface UserCards {
+  userId: string;
+  cards: [CardInfo] | null;
+}
+
+export interface propsCard {
+  cardInfo: CardInfo | null;
+}

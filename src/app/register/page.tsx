@@ -22,6 +22,7 @@ import { IRegisterFormInput } from "@/types/types";
 import { Link } from "@chakra-ui/react";
 import { useRouter } from 'next/navigation'
 
+  
 
 export default function Register() {
   const {
@@ -29,6 +30,9 @@ export default function Register() {
     handleSubmit,
     formState: { errors },
   } = useForm<IRegisterFormInput>();
+
+  //router to navigation
+  const router = useRouter();
 
   // Form submit handler
   const onSubmit: SubmitHandler<IRegisterFormInput> = (data) => {
@@ -45,8 +49,7 @@ export default function Register() {
     
   };
 
-  //router to navigation
-  const router = useRouter();
+  
 
   return (
     <Box>
