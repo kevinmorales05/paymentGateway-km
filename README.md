@@ -17,7 +17,16 @@ This software was created to tackle the needs of the actual digital companies to
 
 ## Web Pages
 
-{Describe each of the web pages you created and how the web app transitions between each of them.  Also describe what is dynamically created on each page.}
+This web page is dynamic. It has the following pages:
+* Login: login with email and password and get all of the information of the previous saved cards.
+* Sign up: fill a form to create a new account.
+* Add cards: add a new credit card.
+* Order details: get all of the items to purchase information and the total amount you need to pay. Here you can change the prefered credit/debit card if you have more than one.
+* Recover Password: pages to add the email and the other one to change the password and set the otp.
+* Modal to see all of the previous card: deploy all of the cards created before.
+
+* Logged mode: you can use the app and use your previous added cards. The previous cards are tokenized.
+* Anonymous user mode: you can use the app without login.
 
 ## Development Environment
 
