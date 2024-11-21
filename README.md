@@ -1,39 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Overview
 
-## Getting Started
+This is a payment gateway microsite, it is the front end of a complete payment gateway, I am interested in Banking and This is a sample of what I am actually able to do. I have strong software skills and a deep knowledge of software for fintech.
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
+# Web App description and how to run it
+This is a NextJS application.
+## Build
+Yarn
+## Run in Dev Mode
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Purpose of the Software
+This software was created to tackle the needs of the actual digital companies to make payments. This app allows the merchants to receive money for their customers securely and easy.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+[Software Demo Video](http://youtube.link.goes.here)
 
-## Learn More
+## Web Pages
 
-To learn more about Next.js, take a look at the following resources:
+{Describe each of the web pages you created and how the web app transitions between each of them.  Also describe what is dynamically created on each page.}
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Development Environment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Tools
+* Visual Studio Code
+* React snippets
+* Chrome Inspector
+* React Context
 
-## Deploy on Vercel
+# Programming Languages
+* Typescript
+* Javascript
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Useful Websites
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+{Make a list of websites that you found helpful in this project}
+* [Nextjs Framework](https://nextjs.org/)
+* [Chakra UI Components](https://www.chakra-ui.com/)
+* [React Hook Forms](https://react-hook-form.com/)
+
+# Future Work
+
+{Make a list of things that you need to fix, improve, and add in the future.}
+* Improve the UI with colors and with a logo
+* Integrate the microservices to make the app work in production, the app is prepared for this integration
+* Improve the performance of the purchase detail of the app
+* Implement the camera card scanner
+
+
+
 
 
 
