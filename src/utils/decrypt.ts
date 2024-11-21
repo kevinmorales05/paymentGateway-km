@@ -1,5 +1,5 @@
 const CryptoJS = require('crypto-js');
-
+//desencriptar token con informacion de detalle de compra
 export function decrypt(token: string, secretKey: string) {
     try {
         // Decrypt the token

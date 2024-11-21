@@ -36,8 +36,8 @@ export default function DecryptDetails({
   const [data, setData] = useState<DecryptedData | null>(null);
   const router = useRouter();
   //getContextVariables
-  const { userInfo, sessionToken, userCards, setUserCards } = useAppContext();
-
+  const { userInfo, sessionToken, userCards, setUserCards, closeSession } =
+    useAppContext();
 
   const dummieUserCardsNull: UserCards = {
     userId: "anonimousUser",
@@ -62,31 +62,28 @@ export default function DecryptDetails({
     }
     getParams();
     console.log("usercard ", userCards);
-    if(userCards === null){
-      console.log('sesion anonima!');
+    if (userCards === null) {
+      console.log("sesion anonima!");
       setUserCards(dummieUserCardsNull);
     }
-
   }, []);
 
-const placePayment = ()=>  {
-  console.log('Start Place Payment');
-  //1. activate the loading process 
-  setLoading(true);
-  //2. get the prefered card
-  var preferedCard = getPreferedCard(userCards);
-  //3. consume placepayment service, use the prefered card to send a payment
-  console.log('prefered card ', preferedCard);
+  const placePayment = () => {
+    console.log("Start Place Payment");
+    //1. activate the loading process
+    setLoading(true);
+    //2. get the prefered card
+    var preferedCard = getPreferedCard(userCards);
+    //3. consume placepayment service, use the prefered card to send a payment
+    console.log("prefered card ", preferedCard);
 
-  //4. desactivate the loading modal
-  //setLoading(false);
-  //5. navigate to placeOrder success
-  
-  console.log("End of place order!");
-  router.push("/placeOrder");
+    //4. desactivate the loading modal
+    //setLoading(false);
+    //5. navigate to placeOrder success
 
-
-}
+    console.log("End of place order!");
+    router.push("/placeOrder");
+  };
 
   return (
     <div>
@@ -101,6 +98,22 @@ const placePayment = ()=>  {
                   {" "}
                   Welcome {userInfo?.name} {userInfo?.lastName} !
                 </Text>
+                {userInfo !== null ? (
+                  <>
+                    <Button
+                      onClick={() => {
+                        console.log("Close Session");
+                        closeSession();
+                        router.push("/login");
+                      }}
+                    >
+                      Close Session
+                    </Button>
+                  </>
+                ) : (
+                  <></>
+                )}
+
                 <Heading margin={25} marginTop={10}>
                   ORDER DETAILS
                 </Heading>
@@ -110,19 +123,20 @@ const placePayment = ()=>  {
                 <VStack>
                   {/* Card selected by default */}
 
-                  {userCards?.cards === null || userCards?.cards === undefined ? (
+                  {userCards?.cards === null ||
+                  userCards?.cards === undefined ? (
                     <></>
                   ) : (
                     <>
                       <CardSelector
-                      key={getPreferedCard(userCards).cardholderName}
-                        
-                      cardInfo={
-                          getPreferedCard(userCards)
-                        }
+                        key={getPreferedCard(userCards).cardholderName}
+                        cardInfo={getPreferedCard(userCards)}
                       />
-                      <CardModalSelector key={userCards?.userId} cards={userCards?.cards} userId="kevin" />
-                      
+                      <CardModalSelector
+                        key={userCards?.userId}
+                        cards={userCards?.cards}
+                        userId="kevin"
+                      />
                     </>
                   )}
 
@@ -153,8 +167,7 @@ const placePayment = ()=>  {
                 </Button>
               </VStack>
             </Center>
-            <CardModalSelector key={userCards?.userId} cards={userCards?.cards} userId="kevin" />
-
+            
           </Box>
         </>
       )}

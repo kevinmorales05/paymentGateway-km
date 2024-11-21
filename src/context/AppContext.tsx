@@ -13,68 +13,89 @@ import {
   identifyCardType,
 } from "@/utils/functions";
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { encryptData, decryptData } from "@/utils/encritpRestInfo"; // Importa la utilidad de cifrado
 
 interface AppContextProps {
-  user: string | null; //for anonymous payments
+  user: string | null;
   setUser: (user: string | null) => void;
-  logged: boolean; //set if a session is active
-  sessionToken: string | null; //session token for all of the operations
+  logged: boolean;
+  sessionToken: string | null;
   setSessionToken: (sessionToken: string | null) => void;
   setLogged: (logged: boolean) => void;
-  userInfo: UserInfo | null; //information of the user account
+  userInfo: UserInfo | null;
   setUserInfo: (userInfo: UserInfo) => void;
-  userCards: UserCards | null; //all of the attached cards of the user
+  userCards: UserCards | null;
   setUserCards: (userCards: UserCards) => void;
   updateUserCards: (updatedCard: string) => void;
   isModalOpen: boolean;
   setIsModalOpen: (isModalOpen: boolean) => void;
-  deleteUserCard: (cardId: string) => void; // Delete a card by its ID
-  addUserCard: (newCard: IAddCardInterface) => void; // Add a new card
+  deleteUserCard: (cardId: string) => void;
+  addUserCard: (newCard: IAddCardInterface) => void;
+  closeSession: () => void;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<string | null>(null);
-  const [logged, setLogged] = useState<boolean>(false);
-  const [sessionToken, setSessionToken] = useState<string | null>(null);
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-  const [userCards, setUserCards] = useState<UserCards | null>(null);
-  //close modal
+  // Cargar datos iniciales descifrados desde sessionStorage
+  const [user, setUser] = useState<string | null>(
+    decryptData(sessionStorage.getItem("user") || "") || null
+  );
+  const [logged, setLogged] = useState<boolean>(
+    decryptData(sessionStorage.getItem("logged") || "") === "true"
+  );
+  const [sessionToken, setSessionToken] = useState<string | null>(
+    decryptData(sessionStorage.getItem("sessionToken") || "") || null
+  );
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(
+    decryptData(sessionStorage.getItem("userInfo") || "") || null
+  );
+  const [userCards, setUserCards] = useState<UserCards | null>(
+    decryptData(sessionStorage.getItem("userCards") || "") || null
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  //update the prefered card
-  const updateUserCards = (updatedCard: string) => {
-    console.log("Before update: ", userCards?.cards);
-    console.log("Card ID to update: ", updatedCard);
+  // Guardar datos cifrados en sessionStorage
+  React.useEffect(() => {
+    sessionStorage.setItem("user", encryptData(user || ""));
+    sessionStorage.setItem("logged", encryptData(String(logged)));
+    sessionStorage.setItem("sessionToken", encryptData(sessionToken || ""));
+    sessionStorage.setItem("userInfo", encryptData(userInfo));
+    sessionStorage.setItem("userCards", encryptData(userCards));
+  }, [user, logged, sessionToken, userInfo, userCards]);
 
-    // Ensure that the updated cards array is correctly mapped
+  const closeSession = () => {
+    sessionStorage.clear();
+
+    setUser(null);
+    setLogged(false);
+    setSessionToken(null);
+    setUserInfo(null);
+    setUserCards(null);
+    setIsModalOpen(false);
+
+    console.log("Session closed and storage cleared.");
+  };
+
+  const updateUserCards = (updatedCard: string) => {
     const cardsUpdated = userCards?.cards?.map((card) => ({
       ...card,
-      priority: card.cardId === updatedCard ? 1 : 0, // Update priority for the matching card
+      priority: card.cardId === updatedCard ? 1 : 0,
     }));
-
-    console.log("Updated cards: ", cardsUpdated);
 
     if (cardsUpdated && userCards) {
       setUserCards({
-        ...userCards, // Preserve other properties
-        cards: cardsUpdated, // Update only the cards property
+        ...userCards,
+        cards: cardsUpdated,
         userId: userCards.userId,
       });
     }
   };
-  //add a new card
-  const addUserCard = (newCard: IAddCardInterface) => {
-    console.log("Before addition: ", userCards?.cards);
-    console.log("New card to add: ", newCard);
-    // tokenize the card number
-    const tokenize = (cardNumber: string) => {
-      //substitute with the real service
-      return `token123-${newCard.cardNumber}abc`;
-    };
 
-    let newCardCyphered = {
+  const addUserCard = (newCard: IAddCardInterface) => {
+    const tokenize = (cardNumber: string) => `token123-${newCard.cardNumber}abc`;
+
+    const newCardCyphered = {
       cardId: tokenize(newCard.cardNumber),
       last4: get4lastNumbers(newCard.cardNumber),
       expMonth: getMonth(newCard.expDate),
@@ -83,48 +104,36 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       cardholderName: newCard.name,
       priority: 1,
     };
-    // Set the new card's priority to 1 and other cards' priority to 0
+
     const updatedCards =
       userCards?.cards?.map((card) => ({
         ...card,
-        priority: 0, // Reset priority for existing cards
+        priority: 0,
       })) || [];
 
     updatedCards.push(newCardCyphered);
 
-    console.log("Cards after addition: ", updatedCards);
-
     if (userCards) {
       setUserCards({
-        ...userCards, // Preserve other properties
-        cards: updatedCards, // Update only the cards property
+        ...userCards,
+        cards: updatedCards,
         userId: userCards.userId,
       });
     }
   };
-  //evaluate if it works
-  const deleteUserCard = (cardIdToDelete: string) => {
-    console.log("Before deletion: ", userCards?.cards);
-    console.log("Card ID to delete: ", cardIdToDelete);
 
-    // Filter out the card with the specified cardId
+  const deleteUserCard = (cardIdToDelete: string) => {
     const cardsAfterDeletion = userCards?.cards?.filter(
       (card) => card.cardId !== cardIdToDelete
     );
 
-    console.log("Cards after deletion: ", cardsAfterDeletion);
-
     if (cardsAfterDeletion && userCards) {
       setUserCards({
-        ...userCards, // Preserve other properties
-        cards: cardsAfterDeletion, // Update only the cards property
+        ...userCards,
+        cards: cardsAfterDeletion,
         userId: userCards.userId,
       });
     }
-  };
-  //place a new order
-  const placeOrder = () => {
-    //process the order
   };
 
   return (
@@ -145,6 +154,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setIsModalOpen,
         deleteUserCard,
         addUserCard,
+        closeSession,
       }}
     >
       {children}
@@ -152,7 +162,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-//export the hook to use the context in the app
 export const useAppContext = () => {
   const context = useContext(AppContext);
   if (!context) {

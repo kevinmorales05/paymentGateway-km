@@ -11,6 +11,7 @@ import {
   Fieldset,
   Input,
   HStack,
+  VStack,
 } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -37,6 +38,11 @@ export default function AddCard() {
     //here we need to implement a solution to save the card as a reference
     router.push('/detail/12')
   };
+
+  const handleGoBack = () => {
+    router.back(); // Regresa a la página anterior
+  };
+
   return (
     <Center display={"flex"} flexDir={"column"}>
       <Box>
@@ -148,6 +154,7 @@ export default function AddCard() {
            
 
               <Center>
+                <VStack>
                 <Button
                   type="submit"
                   alignSelf="center"
@@ -156,6 +163,15 @@ export default function AddCard() {
                 >
                   Add Card
                 </Button>
+                <Button
+                  onClick={handleGoBack}
+                  size={"xl"}
+                  variant={"surface"}
+                  
+                >
+                  Go back
+                </Button>
+                </VStack>
               </Center>
             </form>
           </Fieldset.Content>
